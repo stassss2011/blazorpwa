@@ -1,0 +1,65 @@
+@page "/"
+
+
+<MudText Typo="Typo.h3" GutterBottom="true">Caesar Cipher</MudText>
+<MudItem xs="12" sm="6" md="4">
+    <MudNumericField @bind-Value="Shift" Label="Shift" Variant="Variant.Text" Min="0" Max="Alphabet.Length"/>
+</MudItem>
+
+<MudItem xs="12" sm="12" md="8">
+    <MudTextField @bind-Value="Alphabet" Label="Alphabet" Variant="Variant.Text"/>
+</MudItem>
+
+
+<MudItem xs="12" sm="12" md="12" Style="margin: 15px 0">
+    <MudButton @onclick="Reset" Variant="Variant.Filled">Reset</MudButton>
+    <MudButton @onclick="Encrypt" Variant="Variant.Filled">Encrypt</MudButton>
+    <MudButton @onclick="Decrypt" Variant="Variant.Filled">Decrypt</MudButton>
+</MudItem>
+
+
+<MudGrid>
+    <MudItem xs="12" sm="6" md="6">
+        <MudTextField T="string" @ref="Input" Label="Input" Variant="Variant.Outlined" Lines="10"/>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="6">
+        <MudTextField T="string" @ref="Output" Label="Output" Variant="Variant.Outlined" Lines="10"/>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+        public const string ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz 0123456789.,:;!?()-+*/[]{}@_><#~=\\\"&%$§";
+    public int Shift { get; set; }
+    public string Alphabet { get; set; }
+    public MudTextField<string> Input { get; set; }
+    public MudTextField<string> Output { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Alphabet = ALPHABET;
+    }
+
+    private void Reset()
+    {
+        Alphabet = ALPHABET;
+        Shift = 0;
+    }
+
+    private void Encrypt()
+    {
+        if (Input.Text == null)
+            return;
+        var cipher = new CommonLibrary.Ciphers.CaesarCipher(Shift, Alphabet);
+        Output.Text = cipher.Encrypt(Input.Text) ?? "";
+    }
+
+    private void Decrypt()
+    {
+        if (Input.Text == null)
+            return;
+        var cipher = new CommonLibrary.Ciphers.CaesarCipher(Shift, Alphabet);
+        Output.Text = cipher.Decrypt(Input.Text) ?? "";
+    }
+}

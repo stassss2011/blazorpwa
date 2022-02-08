@@ -1,0 +1,56 @@
+@page "/des"
+@using System.Text
+<MudText Typo="Typo.h3" GutterBottom="true">DES</MudText>
+<MudItem xs="12" sm="6" md="4">
+    <MudTextField @bind-Value="Key" Label="Key" Variant="Variant.Text"/>
+</MudItem>
+
+
+<MudItem xs="12" sm="12" md="12" Style="margin: 15px 0">
+    <MudButton @onclick="Reset" Variant="Variant.Filled">Reset</MudButton>
+    <MudButton @onclick="Encrypt" Variant="Variant.Filled">Encrypt</MudButton>
+    <MudButton @onclick="Decrypt" Variant="Variant.Filled">Decrypt</MudButton>
+</MudItem>
+
+
+<MudGrid>
+    <MudItem xs="12" sm="6" md="6">
+        <MudTextField T="string" @ref="Input" Label="Input" Variant="Variant.Outlined" Lines="10"/>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="6">
+        <MudTextField T="string" @ref="Output" Label="Output" Variant="Variant.Outlined" Lines="10"/>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    public string Key { get; set; }
+    public MudTextField<string> Input { get; set; }
+    public MudTextField<string> Output { get; set; }
+
+    private void Reset()
+    {
+        Key = "";
+    }
+
+    private void Encrypt()
+    {
+        if (Input.Text == null)
+            return;
+        var cipher = new CommonLibrary.Ciphers.DES(Encoding.UTF8.GetBytes(Key));
+        Output.Text = string.Join(" ", cipher.Encrypt(Encoding.UTF8.GetBytes(Input.Text)));
+    }
+
+    private void Decrypt()
+    {
+        if (Input.Text == null)
+            return;
+        var cipher = new CommonLibrary.Ciphers.DES(Encoding.UTF8.GetBytes(Key));
+        Output.Text = Encoding.UTF8.GetString(cipher
+            .Decrypt(
+                Input.Text
+                    .Split(" ")
+                    .Select(byte.Parse)
+                    .ToArray()));
+    }
+}

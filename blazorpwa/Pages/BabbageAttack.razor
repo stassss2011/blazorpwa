@@ -1,0 +1,41 @@
+﻿@page "/babbage-attack"
+
+<MudText Typo="Typo.h3" GutterBottom="true">Babbage Attack</MudText>
+
+<MudItem xs="12" sm="6" md="4">
+    <MudNumericField @bind-Value="MaxKeyLenght" Label="Maximum Key Lenght" Variant="Variant.Text" Min="0" Max="100"/>
+</MudItem>
+
+<MudItem xs="12" sm="12" md="12" Style="margin: 15px 0;">
+    <MudButton @onclick="Decrypt" Variant="Variant.Filled">Decrypt</MudButton>
+</MudItem>
+
+
+<MudGrid>
+    <MudItem xs="12" sm="6" md="6">
+        <MudTextField T="string" @ref="Input" Label="Input" Variant="Variant.Outlined" Lines="10"/>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="6">
+        <MudTextField T="string" @ref="Output" Label="Output" Variant="Variant.Outlined" Lines="10"/>
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    public int MaxKeyLenght = 15;
+    public MudTextField<string> Input { get; set; }
+    public MudTextField<string> Output { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    private async void Decrypt()
+    {
+        if (Input.Text == null)
+            return;
+        var cipher = new CommonLibrary.Attacks.BabbageAttack(MaxKeyLenght);
+        Output.Text = cipher.ForceDecrypt(Input.Text) ?? "";
+    }
+}

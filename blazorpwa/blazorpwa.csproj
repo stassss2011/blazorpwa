@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.10" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.9" PrivateAssets="all" />
+        <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+        <PackageReference Include="MudBlazor" Version="5.1.5" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="CommonLibrary\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Remove="CommonLibrary\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="CommonLibrary\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Remove="CommonLibrary\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <_ContentIncludedByDefault Remove="CommonLibrary\bin\Debug\net5.0\CommonLibrary.deps.json" />
+        <_ContentIncludedByDefault Remove="CommonLibrary\obj\CommonLibrary.csproj.nuget.dgspec.json" />
+        <_ContentIncludedByDefault Remove="CommonLibrary\obj\project.assets.json" />
+        <_ContentIncludedByDefault Remove="CommonLibrary\obj\project.packagespec.json" />
+        <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj" />
+    </ItemGroup>
+
+</Project>
